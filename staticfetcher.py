@@ -81,3 +81,34 @@ class Staticfetcher(object):
 			if os.path.exists(target):
 				print("  rm %s" % target)
 				os.remove(target)
+
+	def run(self):
+		"""
+		Convenience sub-program that runs an argument parser and fetch static files.
+
+		Example usage:
+			from staticfetcher import Staticfetcher
+			Staticfetcher(my_statics, root_dir='.').run()
+
+		Example invocation:
+			python statics.py fetch
+			python statics.py fetch --force
+			python statics.py clean
+		"""
+		import argparse
+
+		parser = argparse.ArgumentParser(description='Fetches static files')
+
+		subparsers = parser.add_subparsers(dest='subparser_name', help='Action to run')
+
+		fetch_parser = subparsers.add_parser('fetch', help='Fetch static files')
+		clean_parser = subparsers.add_parser('clean', help='Deletes static files')
+
+		fetch_parser.add_argument('--force', action='store_true', default=False, help='Fetches even already existing files.')
+
+		args = parser.parse_args()
+
+		if args.subparser_name == 'fetch':
+			self.fetch(args.force)
+		elif args.subparser_name == 'clean':
+			self.clean()
