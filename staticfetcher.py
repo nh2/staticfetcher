@@ -27,7 +27,7 @@ __all__ = ['Staticfetcher']
 def makedirs(f):
 	""" Recursively creates the directory structure leading to file f."""
 	target_dir = os.path.dirname(f)
-	if not os.path.exists(target_dir):
+	if target_dir > '' and not os.path.exists(target_dir):
 		os.makedirs(target_dir)
 
 
