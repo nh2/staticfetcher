@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
 Fetches static files.
+Runs on Python 2.7 and >= 3.2.
 
 Example:
 
@@ -15,13 +16,24 @@ Example:
 """
 
 from __future__ import print_function
+
 import os
-import urllib
 
 __author__ = 'Niklas Hambuechen'
 __license__ = 'MIT'
 
 __all__ = ['Staticfetcher']
+
+def download(source, target):
+	try:
+		# Python 3
+		import urllib.request
+		print("urllib.return.urlretrieve(%s, %s)" % (source, target))
+		return urllib.request.urlretrieve(source, target)
+	except ImportError:
+		# Python 2
+		import urllib
+		return urllib.urlretrieve(source, target)
 
 
 def makedirs(f):
@@ -66,7 +78,7 @@ class Staticfetcher(object):
 			if force or not os.path.exists(target):
 				makedirs(target)
 				print("  %s <- %s" % (target, source))
-				urllib.urlretrieve(source, target)
+				download(source, target)
 			else:
 				print("  %s (existing)" % target)
 
