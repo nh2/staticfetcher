@@ -28,7 +28,6 @@ def download(source, target):
 	try:
 		# Python 3
 		import urllib.request
-		print("urllib.return.urlretrieve(%s, %s)" % (source, target))
 		return urllib.request.urlretrieve(source, target)
 	except ImportError:
 		# Python 2
